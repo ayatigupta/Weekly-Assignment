@@ -1,19 +1,25 @@
 import java.util.*;
 
- class TwoSum {
+ class MultiLevelCache {
 
-    public void find(int[] arr, int target) {
+    HashMap<String, String> L1 = new LinkedHashMap<>();
+    HashMap<String, String> L2 = new HashMap<>();
+    HashMap<String, String> DB = new HashMap<>();
 
-        HashMap<Integer, Integer> map = new HashMap<>();
+    public String get(String key) {
 
-        for (int num : arr) {
-
-            if (map.containsKey(num)) {
-                System.out.println("Pair: " + num + ", " + (target - num));
-                return;
-            }
-
-            map.put(target - num, num);
+        if (L1.containsKey(key)) {
+            return "L1 HIT → " + L1.get(key);
         }
+
+        if (L2.containsKey(key)) {
+            L1.put(key, L2.get(key));
+            return "L2 HIT → promoted to L1";
+        }
+
+        String val = DB.getOrDefault(key, "Not Found");
+        L2.put(key, val);
+
+        return "DB HIT → added to L2";
     }
 }
