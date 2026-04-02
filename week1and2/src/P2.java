@@ -1,40 +1,24 @@
 import java.util.*;
 
-class PlagiarismDetector {
+ class AnalyticsSystem {
 
-    private HashMap<String, Set<String>> index = new HashMap<>();
+    HashMap<String, Integer> pageViews = new HashMap<>();
+    HashMap<String, Set<String>> uniqueUsers = new HashMap<>();
+    HashMap<String, Integer> sources = new HashMap<>();
 
-    // Generate n-grams
-    private List<String> getNGrams(String text, int n) {
-        String[] words = text.split(" ");
-        List<String> grams = new ArrayList<>();
+    public void processEvent(String url, String user, String source) {
 
-        for (int i = 0; i <= words.length - n; i++) {
-            String gram = String.join(" ", Arrays.copyOfRange(words, i, i + n));
-            grams.add(gram);
-        }
-        return grams;
+        pageViews.put(url, pageViews.getOrDefault(url, 0) + 1);
+
+        uniqueUsers.putIfAbsent(url, new HashSet<>());
+        uniqueUsers.get(url).add(user);
+
+        sources.put(source, sources.getOrDefault(source, 0) + 1);
     }
 
-    // Add document
-    public void addDocument(String docId, String text) {
-        for (String gram : getNGrams(text, 3)) {
-            index.putIfAbsent(gram, new HashSet<>());
-            index.get(gram).add(docId);
-        }
-    }
-
-    // Compare similarity
-    public int checkSimilarity(String text, String docId) {
-        int match = 0;
-        List<String> grams = getNGrams(text, 3);
-
-        for (String gram : grams) {
-            if (index.containsKey(gram) && index.get(gram).contains(docId)) {
-                match++;
-            }
-        }
-
-        return (match * 100) / grams.size();
+    public void showDashboard() {
+        System.out.println("Page Views: " + pageViews);
+        System.out.println("Unique Users: " + uniqueUsers);
+        System.out.println("Sources: " + sources);
     }
 }
