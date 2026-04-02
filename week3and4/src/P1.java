@@ -1,29 +1,34 @@
-class Problem3 {
+class Problem4 {
 
-    static void mergeSort(int[] arr, int l, int r) {
-        if (l >= r) return;
+    static void quickSort(int[] arr, int low, int high) {
 
-        int mid = (l + r) / 2;
+        if (low < high) {
 
-        mergeSort(arr, l, mid);
-        mergeSort(arr, mid + 1, r);
+            int pi = partition(arr, low, high);
 
-        merge(arr, l, mid, r);
+            quickSort(arr, low, pi - 1);
+            quickSort(arr, pi + 1, high);
+        }
     }
 
-    static void merge(int[] arr, int l, int m, int r) {
+    static int partition(int[] arr, int low, int high) {
 
-        int[] temp = new int[r - l + 1];
-        int i = l, j = m + 1, k = 0;
+        int pivot = arr[high];
+        int i = low - 1;
 
-        while (i <= m && j <= r) {
-            if (arr[i] < arr[j]) temp[k++] = arr[i++];
-            else temp[k++] = arr[j++];
+        for (int j = low; j < high; j++) {
+
+            if (arr[j] > pivot) { // DESC sort
+                i++;
+                int temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
         }
 
-        while (i <= m) temp[k++] = arr[i++];
-        while (j <= r) temp[k++] = arr[j++];
+        int temp = arr[i + 1];
+        arr[i + 1] = arr[high];
+        arr[high] = temp;
 
-        System.arraycopy(temp, 0, arr, l, temp.length);
+        return i + 1;
     }
-}
