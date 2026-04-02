@@ -1,38 +1,21 @@
-import java.util.*;
 
-class TokenBucket {
-    int tokens;
-    long lastRefill;
+ class ParkingSystem {
 
-    TokenBucket(int max) {
-        tokens = max;
-        lastRefill = System.currentTimeMillis();
+    String[] spots = new String[10];
+
+    private int hash(String plate) {
+        return Math.abs(plate.hashCode()) % spots.length;
     }
-}
 
-class RateLimiter {
+    public void park(String plate) {
 
-    HashMap<String, TokenBucket> map = new HashMap<>();
-    int MAX = 5;
+        int idx = hash(plate);
 
-    public boolean allow(String client) {
-
-        map.putIfAbsent(client, new TokenBucket(MAX));
-        TokenBucket bucket = map.get(client);
-
-        long now = System.currentTimeMillis();
-
-        // refill every 10 sec
-        if (now - bucket.lastRefill > 10000) {
-            bucket.tokens = MAX;
-            bucket.lastRefill = now;
+        while (spots[idx] != null) {
+            idx = (idx + 1) % spots.length;
         }
 
-        if (bucket.tokens > 0) {
-            bucket.tokens--;
-            return true;
-        }
-
-        return false;
+        spots[idx] = plate;
+        System.out.println("Parked at " + idx);
     }
 }
