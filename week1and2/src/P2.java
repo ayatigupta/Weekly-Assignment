@@ -1,21 +1,19 @@
+import java.util.*;
 
- class ParkingSystem {
+ class TwoSum {
 
-    String[] spots = new String[10];
+    public void find(int[] arr, int target) {
 
-    private int hash(String plate) {
-        return Math.abs(plate.hashCode()) % spots.length;
-    }
+        HashMap<Integer, Integer> map = new HashMap<>();
 
-    public void park(String plate) {
+        for (int num : arr) {
 
-        int idx = hash(plate);
+            if (map.containsKey(num)) {
+                System.out.println("Pair: " + num + ", " + (target - num));
+                return;
+            }
 
-        while (spots[idx] != null) {
-            idx = (idx + 1) % spots.length;
+            map.put(target - num, num);
         }
-
-        spots[idx] = plate;
-        System.out.println("Parked at " + idx);
     }
 }
