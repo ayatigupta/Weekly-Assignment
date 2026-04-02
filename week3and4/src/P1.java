@@ -1,21 +1,18 @@
-class Problem5 {
+class Problem6 {
 
-    static int linearSearch(String[] arr, String key) {
-        for (int i = 0; i < arr.length; i++)
-            if (arr[i].equals(key)) return i;
-        return -1;
+    static int floor(int[] arr, int target) {
+        int res = -1;
+
+        for (int num : arr)
+            if (num <= target) res = num;
+
+        return res;
     }
 
-    static int binarySearch(String[] arr, String key) {
-        int l = 0, r = arr.length - 1;
+    static int ceiling(int[] arr, int target) {
+        for (int num : arr)
+            if (num >= target) return num;
 
-        while (l <= r) {
-            int mid = (l + r) / 2;
-
-            if (arr[mid].equals(key)) return mid;
-            else if (arr[mid].compareTo(key) < 0) l = mid + 1;
-            else r = mid - 1;
-        }
         return -1;
     }
 }
