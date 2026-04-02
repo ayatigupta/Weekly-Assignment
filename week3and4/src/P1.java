@@ -1,39 +1,29 @@
-import java.util.*;
+class Problem3 {
 
-class Client {
-    String name;
-    int risk;
+    static void mergeSort(int[] arr, int l, int r) {
+        if (l >= r) return;
 
-    Client(String name, int risk) {
-        this.name = name;
-        this.risk = risk;
-    }
-}
+        int mid = (l + r) / 2;
 
-class Problem2 {
+        mergeSort(arr, l, mid);
+        mergeSort(arr, mid + 1, r);
 
-    static void bubbleSort(Client[] arr) {
-        for (int i = 0; i < arr.length - 1; i++) {
-            for (int j = 0; j < arr.length - i - 1; j++) {
-                if (arr[j].risk > arr[j + 1].risk) {
-                    Client temp = arr[j];
-                    arr[j] = arr[j + 1];
-                    arr[j + 1] = temp;
-                }
-            }
-        }
+        merge(arr, l, mid, r);
     }
 
-    static void insertionSortDesc(Client[] arr) {
-        for (int i = 1; i < arr.length; i++) {
-            Client key = arr[i];
-            int j = i - 1;
+    static void merge(int[] arr, int l, int m, int r) {
 
-            while (j >= 0 && arr[j].risk < key.risk) {
-                arr[j + 1] = arr[j];
-                j--;
-            }
-            arr[j + 1] = key;
+        int[] temp = new int[r - l + 1];
+        int i = l, j = m + 1, k = 0;
+
+        while (i <= m && j <= r) {
+            if (arr[i] < arr[j]) temp[k++] = arr[i++];
+            else temp[k++] = arr[j++];
         }
+
+        while (i <= m) temp[k++] = arr[i++];
+        while (j <= r) temp[k++] = arr[j++];
+
+        System.arraycopy(temp, 0, arr, l, temp.length);
     }
 }
