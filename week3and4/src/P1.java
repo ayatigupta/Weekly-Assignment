@@ -1,34 +1,21 @@
-class Problem4 {
+class Problem5 {
 
-    static void quickSort(int[] arr, int low, int high) {
-
-        if (low < high) {
-
-            int pi = partition(arr, low, high);
-
-            quickSort(arr, low, pi - 1);
-            quickSort(arr, pi + 1, high);
-        }
+    static int linearSearch(String[] arr, String key) {
+        for (int i = 0; i < arr.length; i++)
+            if (arr[i].equals(key)) return i;
+        return -1;
     }
 
-    static int partition(int[] arr, int low, int high) {
+    static int binarySearch(String[] arr, String key) {
+        int l = 0, r = arr.length - 1;
 
-        int pivot = arr[high];
-        int i = low - 1;
+        while (l <= r) {
+            int mid = (l + r) / 2;
 
-        for (int j = low; j < high; j++) {
-
-            if (arr[j] > pivot) { // DESC sort
-                i++;
-                int temp = arr[i];
-                arr[i] = arr[j];
-                arr[j] = temp;
-            }
+            if (arr[mid].equals(key)) return mid;
+            else if (arr[mid].compareTo(key) < 0) l = mid + 1;
+            else r = mid - 1;
         }
-
-        int temp = arr[i + 1];
-        arr[i + 1] = arr[high];
-        arr[high] = temp;
-
-        return i + 1;
+        return -1;
     }
+}
